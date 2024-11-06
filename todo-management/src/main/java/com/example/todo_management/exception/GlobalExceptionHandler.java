@@ -1,5 +1,6 @@
 package com.example.todo_management.exception;
 
+import com.example.todo_management.entity.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,5 +23,17 @@ public class GlobalExceptionHandler {
                 "USER_NAME_ALREADY_TAKEN"
         );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleRoleNotFoundException(RoleNotFoundException exception,
+                                                                    WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "ROLE_NOT_ASSIGNED"
+        );
+        return  new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
 }

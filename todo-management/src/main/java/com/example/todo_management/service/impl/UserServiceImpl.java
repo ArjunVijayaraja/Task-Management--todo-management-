@@ -1,8 +1,10 @@
 package com.example.todo_management.service.impl;
 
 import com.example.todo_management.dtoEntity.UserDto;
+import com.example.todo_management.entity.Role;
 import com.example.todo_management.entity.User;
 import com.example.todo_management.exception.UserNameAlreadyExistsException;
+import com.example.todo_management.repository.RoleRepository;
 import com.example.todo_management.repository.UserRepository;
 import com.example.todo_management.service.UserService;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
     private ModelMapper modelMapper;
     private PasswordEncoder passwordEncoder;
 
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
        User newUser =  modelMapper.map(userDto, User.class);
        User savedUser = userRepository.save(newUser);
+
+
        return modelMapper.map(savedUser,UserDto.class);
     }
 
